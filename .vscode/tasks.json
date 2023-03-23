@@ -1,0 +1,67 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "msbuild",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                // Ask msbuild to generate full paths for file names.
+                "/property:GenerateFullPaths=true", // NOVO
+                "/p:Configuration=Debug",
+                "/p:VisualStudioVersion=15.0", // Pode funcionar ou não com este parâmetro
+                "/t:build",
+                "-m"
+            ],
+            "group": "build", // NOVO
+            "presentation": {
+                //"reveal": "silent"
+                "reveal": "always"
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "iisStart",
+            "type": "shell",
+            "dependsOn": "msbuild",
+            "command": "Start-Process",
+            "args": [
+                "-FilePath",
+                "iisexpress",
+                "/siteid:2"
+            ],
+            "presentation": {
+                //"reveal": "silent",
+                "reveal": "always",
+            }
+        },
+        {
+            "label": "iisStop",
+            "type": "shell",
+            "command": "Stop-Process",
+            "args": [
+                "-FilePath",
+                "iisexpress"
+            ]
+        },
+        {
+            "label": "startBraveDebug",
+            "type": "shell",
+            "command": "Start-Process",
+            "dependsOn": "iisStart",
+            "args": [
+                "-FilePath",
+                "brave",
+                "-ArgumentList",
+                "--incognito",
+                ",",
+                "--remote-debugging-port=9222",
+                ",",
+                "http://localhost:44331/swagger"
+            ]
+        }
+    ]
+}

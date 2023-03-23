@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Brave",
+            "port": 9222,
+            "request": "attach",
+            "type": "chrome",
+            "outputCapture": "console", //novo
+            "restart": true, //novo
+            "trace": true, //novo
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Start App",
+            "type": "clr",
+            "request": "attach",
+            "processName": "iisexpress",
+            //"justMyCode": false,
+            //"enableStepFiltering": false,
+            //"internalConsoleOptions": "openOnFirstSessionStart",
+            //"suppressJITOptimizations": false,
+            "preLaunchTask": "startBraveDebug",
+            //Pra agilizar, não fechar a janela de debug.
+            "postDebugTask": "iisStop"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch apps and attach debuggers",
+            "configurations": [
+                "Start App",
+                "Attach to Brave"
+            ]
+        }
+    ]
+}
